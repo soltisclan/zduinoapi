@@ -1,4 +1,6 @@
 var http = require('http');
+var Twitter = require('twitter');
+var config = require('./config.js');
 
 function getTime(timeArg) {
     var d  = new Date();
@@ -9,6 +11,18 @@ function getTime(timeArg) {
         dateValue = d;
     }
     return dateValue.toString();
+}
+
+function tweetThis(tweet) {
+    var client = new Twitter(config.twittercreds);
+
+    client.post('statuses/update', { status: tweet }, function (error, tweet, response) {
+        if (error) { throw error; }
+        console.log(tweet);  // Tweet body. 
+        console.log(response);  // Raw response object. 
+    });
+    
+    return "tweeted!";
 }
 
 function processRequest (req, res) {
@@ -23,9 +37,20 @@ function processRequest (req, res) {
             timeArg = reqs[1];
         }
         res.end(getTime(timeArg));
-    } else {
+    } 
+    else if (reqs[0] === "/?tweet"){
+        var tweet="";
+        if (reqs.length > 1) {
+            tweet = reqs[1];
+        }
+        res.end(tweetThis(tweet));        
+    }
+    else 
+    {
         res.end();
     }
 }
+
+
 
 http.createServer(processRequest).listen(process.env.PORT || 8080);
