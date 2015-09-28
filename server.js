@@ -38,15 +38,15 @@ function processRequest (req, res) {
         }
         res.end(getTime(timeArg));
     } 
-    else if (reqs[0] === "/?tweet"){
-        var tweet="";
+    else if (reqs[0] === "/?tweet") {
         if (reqs.length > 1) {
-            tweet = reqs[1];
+            res.end(tweetThis(reqs[1]));
         }
-        res.end(tweetThis(tweet));        
+        res.end();
     }
-    else 
-    {
+    else if (reqs[0] === "/?env") {
+            res.end(JSON.stringify(process.env,null,4));            
+    } else {
         res.end();
     }
 }
