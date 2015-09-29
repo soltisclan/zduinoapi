@@ -7,6 +7,8 @@ function getTime(timeArg) {
     var dateValue;
     if (timeArg === "month"){
         dateValue = d.getMonth() + 1;
+    }   else if (timeArg === "day"){
+        dateValue = d.getDay();
     } else {
         dateValue = d;
     }
