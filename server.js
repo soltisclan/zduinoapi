@@ -19,6 +19,8 @@ function tweetThis(tweet) {
     var client = new Twitter(config.twittercreds);
 
     tweet = decodeURIComponent(tweet);
+    
+    if (tweet.length === 0) { return "Nothing to tweet :("; }
 
     client.post('statuses/update', { status: tweet }, 
         function (error, tweet, response) {
